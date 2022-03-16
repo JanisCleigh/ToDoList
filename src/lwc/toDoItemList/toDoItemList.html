@@ -1,0 +1,66 @@
+<template>
+    <lightning-card title="To Do List" icon-name="action:new_note">
+        <lightning-layout vertical-align="end"
+                          class="slds-var-m-around_medium">
+            <lightning-layout-item class="slds-var-m-top_large">
+                <lightning-button
+                        label="Create New Item"
+                        class="slds-var-m-around_medium"
+                        onclick={createNewItem}
+                ></lightning-button>
+            </lightning-layout-item>
+            <lightning-layout-item padding="horizontal-small">
+                <lightning-combobox name="statusCombobox"
+                                    label="Status"
+                                    value={selectedStatus}
+                                    options={itemStatuses}
+                                    onchange={handleChangeCombobox}>
+                </lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item padding="horizontal-small">
+                <lightning-combobox name="categoryCombobox"
+                                    label="Category"
+                                    value={selectedCategory}
+                                    options={itemCategories}
+                                    onchange={handleChangeCombobox}>
+                </lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item padding="horizontal-small">
+                <lightning-combobox name="priorityCombobox"
+                                    label="Priority"
+                                    value={selectedPriority}
+                                    options={itemPriorities}
+                                    onchange={handleChangeCombobox}>
+                </lightning-combobox>
+            </lightning-layout-item>
+        </lightning-layout>
+        <lightning-layout
+                vertical-align="end"
+                class="slds-var-m-around_medium"
+        >
+            <lightning-layout-item flexibility="grow" class="slds-var-p-left_medium">
+                <lightning-input
+                        type="search"
+                        onchange={handleKeyChange}
+                        label="Search"
+                        value={searchKey}
+                ></lightning-input>
+            </lightning-layout-item>
+        </lightning-layout>
+        <div class="slds-var-m-around_medium">
+            <template for:each={toDoList} for:item="toDoItem">
+                <c-to-do-item
+                        key={toDoItem.Id}
+                        to-do-item={toDoItem}
+                        ondelete={refreshToDoList}
+                        onsave={refreshToDoList}
+                        oncancel={refreshToDoList}
+                ></c-to-do-item>
+            </template>
+        </div>
+        <div slot="footer" class="slds-var-m-vertical_small">
+            <c-pagination current-page={pageNumber} total-count-of-records= {totalCountOfRecords}
+                          records-per-page={recordsOnPage} onpaginationchange={handlePaginationChange}></c-pagination>
+        </div>
+    </lightning-card>
+</template>
